@@ -1,0 +1,97 @@
+#include <bits/stdc++.h>
+using namespace std;
+//To check if a string is palindrome or not.
+
+bool checkforpal(string s)
+{
+    int length=s.length();
+    length--;
+    for(int i=0;i<length;i++)
+    {
+        if(s[i]!=s[length])
+        {
+            return false;
+        }
+
+        length--;
+    }
+
+    return true;
+}
+
+//To print the finally obtained palindromic partitions.
+void printpartitions(vector<vector<string> > storepartitions)
+{
+    for(int i=0;i<storepartitions.size();i++)
+    {
+        for(int j=0;j<storepartitions[i].size();j++)
+        {
+            cout<<storepartitions[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    return;
+}
+
+/*Iterate through the whole string and for each index, check
+  if the partitioned strings are palindromic. If yes, push
+  them into the vector to store final result. */
+
+void findpartitions(vector<vector<string> > &storepartitions, string &s, vector<string> &var, int pivot)
+{
+    int length=s.length();
+    string str;
+    vector<string> currstring = var;
+    if (pivot == 0)
+    {
+        var.clear();
+    }
+
+    for (int i = pivot; i < length; i++)
+    {
+        str = str + s[i];
+        
+        //Calling for palindrome check.
+        if (checkforpal(str))
+        {
+            var.push_back(str);
+            if (i+1 < length)
+            {
+                findpartitions(storepartitions,s,var,i+1);
+            }
+            else
+            {
+                //Pushing into the vector.
+                storepartitions.push_back(var);
+            }
+            
+            var = currstring;
+        }
+    }
+
+    return;
+}
+
+//To create partitions in the string and store the palindromic partitions in the resultant array.
+void startpartition(string s, vector<vector<string> >&storepartitions)
+{
+
+    vector<string> var;
+    findpartitions(storepartitions, s, var, 0);
+    printpartitions(storepartitions);
+
+    return;
+}
+
+//Driver function.
+int main()
+{
+
+    string st;
+    cin>>st;
+    vector<vector<string> > storepartitions;
+    startpartition(st, storepartitions);
+
+    return 0;
+}
