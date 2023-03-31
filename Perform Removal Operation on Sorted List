@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+ListNode* deleteDuplicates(ListNode* head) {
+    if (head == NULL) {
+        return head;
+    }
+    
+    ListNode *prev = NULL, *curr = head, *next = head->next;
+    
+    while (next != NULL) {
+        if (curr->val == next->val) {
+            while (next != NULL && curr->val == next->val) {
+                next = next->next;
+            }
+            
+            if (prev == NULL) {
+                head = next;
+            } else {
+                prev->next = next;
+            }
+            
+            curr = next;
+            
+            if (next == NULL) {
+                break;
+            }
+            
+            next = next->next;
+        } else {
+            prev = curr;
+            curr = next;
+            next = next->next;
+        }
+    }
+    
+    return head;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    
+    ListNode *head = NULL, *tail = NULL;
+    int x;
+    
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        ListNode *newNode = new ListNode(x);
+        
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+    
+    head = deleteDuplicates(head);
+    
+    if (head == NULL) {
+        cout << "-1" << endl;
+    } else {
+        while (head != NULL) {
+            cout << head->val << " ";
+            head = head->next;
+        }
+    }
+    
+    return 0;
+}
