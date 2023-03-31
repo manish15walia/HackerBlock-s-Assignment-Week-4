@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+
+void TOH(int n,string s,string h,string t,int &count){
+    if(n==0){
+        return;
+    }
+    count++;
+    TOH(n-1,s,t,h,count);
+    cout<<"Move "<<n<<"th disc from "<<s<<" to "<<t<<endl;
+    TOH(n-1,h,s,t,count);
+}
+
+int main(){
+    int n;
+    cin>>n;
+    int count=0;
+    
+    TOH(n,"T1","T3","T2",count);
+    cout<<count<<endl;
+}
