@@ -1,0 +1,106 @@
+import java.util.*;
+
+class Node
+{
+    int data;
+    Node next;
+ 
+    Node(int data, Node next)
+    {
+        this.data = data;
+        this.next = next;
+    }
+ 
+    Node() {}
+}
+ 
+public class Main
+{
+    public static void printList(Node head)
+    {
+     
+        Node ptr = head;
+        while (ptr != null)
+        {
+            System.out.print(ptr.data + " ");
+            ptr = ptr.next;
+        }
+        System.out.println(" ");
+    }
+    public static Node sortedMerge(Node a, Node b)
+    {
+        Node dummy = new Node();
+        Node tail = dummy;
+ 
+        while (true)
+        {
+            if (a == null)
+            {
+                tail.next = b;
+                break;
+            }
+            else if (b == null)
+            {
+                tail.next = a;
+                break;
+            }
+ 
+            if (a.data <= b.data)
+            {
+                if (a != null)
+                {
+                    Node newNode = a;
+                    a = a.next;
+ 
+                    newNode.next = tail.next;
+                    tail.next = newNode;
+                }
+            }
+            else {
+                if (b != null)
+                {
+                    Node newNode = b;
+                    b = b.next;
+ 
+                    newNode.next = tail.next;
+                    tail.next = newNode;
+                }
+            }
+            tail = tail.next;
+        }
+ 
+        return dummy.next;
+    }
+ 
+    public static void main(String[] args)
+    {
+
+        Scanner sc = new Scanner(System.in);
+    
+        int n1 = sc.nextInt();
+            int n2 = sc.nextInt();
+        int [] arr1 = new int[n1];
+        for(int i=0;i<n1;i++){
+            arr1[i]=sc.nextInt();
+            
+        }
+    
+        int [] arr2 = new int[n2];
+        for(int i=0;i<n2;i++){
+            arr2[i]=sc.nextInt();
+            
+        }
+        Node a = null, b = null;
+        for (int i = n1 - 1; i >= 0; --i) {
+            a = a = new Node(arr1[i], a);
+        }
+ 
+        for (int i = n2 - 1; i >= 0; --i) {
+            b = b = new Node(arr2[i], b);
+        }
+
+        Node head = sortedMerge(a, b);
+        printList(head);
+        
+    }
+}
