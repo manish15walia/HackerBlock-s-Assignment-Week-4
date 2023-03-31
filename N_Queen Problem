@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+
+void printBoard(int board[100][100],int n){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(board[i][j]==1){
+                cout<<"{"<<i+1<<"-"<<j+1<<"}"<<" ";
+            }
+        }
+    }
+}
+
+
+bool isSafe(int board[100][100],int n,int row,int col){
+    for(int i=0;i<n;i++){
+        if(board[i][col]==1){
+            return false;
+        }
+        
+    }
+    for(int i=row-1,j=col-1;i>=0 && j>=0 ; i--,j--){
+        if(board[i][j]==1){
+            return false;
+        }
+    }
+     for(int i=row-1,j=col+1;i>=0 && j<n ; i--,j++){
+        if(board[i][j]==1){
+            return false;
+        }
+    }
+    return true;
+}
+bool nqueen(int board[100][100],int n,int row,int &count){
+     //base case
+     if(row==n){
+         printBoard(board,n);
+         count++;
+        //  return true;// it will print one solu
+        return false;//it will print many solutins 
+     }
+    //recursive case
+    for(int col=0;col<n;col++){
+      if(isSafe(board,n,row,col)){
+          board[row][col]=1;
+          if(nqueen(board,n,row+1,count)){
+              return true;
+          }
+          board[row][col]=0;//backtrack
+      }  
+    }
+    return false;
+ }
+int main(){
+    int board[100][100]={0};
+    int n,count =0;
+    cin>>n;
+    nqueen(board,n,0,count);
+    cout<<endl<<count;
+}
+
+
+
+
+
+
+
+
